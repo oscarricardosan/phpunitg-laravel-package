@@ -1,0 +1,28 @@
+{
+    "name": "oscarricardosan/phpunitg_laravel",
+    "description": "Phpunit test management package, in multiple app in local environment.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "oscarricardosan",
+            "email": "oscarricardosan@gmail.com"
+        }
+    ],
+    "require": {
+        "nette/reflection": "^2.4"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Oscarricardosan\\PhpunitgLaravel\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Oscarricardosan\\PhpunitgLaravel\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable" : true
+}

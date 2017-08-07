@@ -22,9 +22,10 @@ class PhpunitG implements PhpunitG_Interface
         foreach (FileHelper::getFilesInPath($path) as $file){
             $classFile= (new File($file));
             if($classFile->is_class()){
-                if($classFile->getReflectionClass()->hasAnnotation('phpunitG'))
+                if($classFile->hasAnnotation('phpunitG'))
                     $classes[]= [
                         "class"=> $classFile->getClassnameWithNamespace(),
+                        "tag"=> $classFile->getAnnotation('phpunitG')===true?'No tag':$classFile->getAnnotation('phpunitG'),
                         "path"=> $file,
                         "methods"=> $this->getMethods($classFile->getReflectionClass())
                     ];

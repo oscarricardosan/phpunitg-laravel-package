@@ -27,7 +27,7 @@ class GeneralTest extends \Tests\BaseTest
 
         foreach ($response->json()['tests'] as $test){
             $response->assertJsonStructure([
-                'class', 'path', 'methods'
+                'class', 'path', 'methods', 'tag'
             ], $test);
             $this->assertTrue(is_array($test['methods']));
         }

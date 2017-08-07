@@ -6,9 +6,25 @@ use Nette\Reflection\ClassType;
 
 Class File{
 
+    /**
+     * @var string
+     */
     protected $filePath;
 
+    /**
+     * @var bool|string
+     */
     protected $fileContent;
+
+    /**
+     * @var class
+     */
+    protected $class;
+
+    /**
+     * @var ClassType
+     */
+    protected $reflectionClass;
 
     /**
      * FileToClass constructor.
@@ -32,11 +48,35 @@ Class File{
     }
 
     /**
+     * @return string
+     */
+    public function getAnnotation($key)
+    {
+        return $this->reflectionClass()->getAnnotation($key);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasAnnotation($key)
+    {
+        return $this->reflectionClass()->hasAnnotation($key);
+    }
+
+    /**
      * @return ClassType|boolean
      */
     public function getReflectionClass()
     {
-        return new ClassType($this->getNamespace()."\\".$this->getClassName());
+        return $this->reflectionClass();
+    }
+
+    protected function reflectionClass()
+    {
+        if(is_null($this->reflectionClass)){
+            $this->reflectionClass= new ClassType($this->getNamespace()."\\".$this->getClassName());
+        }
+        return $this->reflectionClass;
     }
 
     /**
@@ -44,8 +84,16 @@ Class File{
      */
     public function getClass()
     {
-        $namespace= $this->getNamespace()."\\".$this->getClassName();
-        return new $namespace;
+        return $this->class_();
+    }
+
+    protected function class_()
+    {
+        if(is_null($this->class)){
+            $namespace= $this->getNamespace()."\\".$this->getClassName();
+            $this->class= new $namespace;
+        }
+        return $this->class;
     }
 
     /**

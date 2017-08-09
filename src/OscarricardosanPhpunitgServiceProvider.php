@@ -2,6 +2,7 @@
 
 namespace Oscarricardosan\PhpunitgLaravel;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class OscarricardosanPhpunitgServiceProvider extends ServiceProvider
@@ -13,7 +14,9 @@ class OscarricardosanPhpunitgServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
+        if (App::environment('local') || App::environment('testing')) {
+            $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        }
     }
 
     /**

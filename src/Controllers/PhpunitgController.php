@@ -6,6 +6,7 @@ namespace Oscarricardosan\PhpunitgLaravel\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Oscarricardosan\PhpunitgLaravel\PhpunitG;
+use Oscarricardosan\PhpunitgLaravel\PhpunitG_method;
 
 class PhpunitgController extends Controller
 {
@@ -17,6 +18,20 @@ class PhpunitgController extends Controller
             "tests"=> $phpunitG->getTests()
         ];
     }
+
+    public function runMethod(Request $request)
+    {
+        $this->validateToken($request);
+        $method= str_replace('\\', '\\\\', $request->get('method'));
+        $phpunitG_method= (new PhpunitG_method($method))->runInPhpunit();
+
+        return [
+            "success"=> $phpunitG_method->isSuccess(),
+            "message"=> $phpunitG_method->getResponseOfPhpunit(),
+        ];
+    }
+
+
 
     protected function validateToken(Request $request)
     {

@@ -4,7 +4,9 @@ namespace Oscarricardosan\PhpunitgLaravel;
 
 
 
+use Illuminate\Support\Facades\Artisan;
 use Oscarricardosan\PhpunitgLaravel\Interfaces\PhpunitG_methodInterface;
+use Symfony\Component\Process\Process;
 
 class PhpunitG_method implements PhpunitG_methodInterface
 {
@@ -34,9 +36,7 @@ class PhpunitG_method implements PhpunitG_methodInterface
     {
         $this
             ->moveDirToBase()
-            ->runCommand()
-            ->readPhpunitResponsetOfLog()
-            ->deleteLog();
+            ->runCommand();
         return $this;
     }
 
@@ -54,28 +54,12 @@ class PhpunitG_method implements PhpunitG_methodInterface
      */
     protected function runCommand()
     {
-        exec(
-            "vendor/bin/phpunit --bootstrap=bootstrap/autoload.php --configuration=phpunit.xml".
-            " --filter='{$this->methodName}' >phpunitg.log"
-        );
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    protected function readPhpunitResponsetOfLog()
-    {
-        $this->phpunitResponse= file_get_contents('phpunitg.log');
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    protected function deleteLog()
-    {
-        unlink('phpunitg.log');
+        $process= new Process(
+            "vendor/bin/phpunit --bootstrap=bootstrap/autoload.php --configuration=phpunit.xml ".
+            " --filter='{$this->methodName}'"
+        , base_path(), getenv());
+        $process->run();
+        $this->phpunitResponse= $process->getOutput();
         return $this;
     }
 

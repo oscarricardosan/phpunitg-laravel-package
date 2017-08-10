@@ -42,8 +42,9 @@ class GeneralTest extends \Tests\BaseTest
         $this->actingAs($this->user);
         $response = $this->get(route('PhpunitG.RunMethod', [
             'token'=> env('PHPUNITG_TOKEN'),
-            'method'=> 'Tests\Unit\General\DashboardTest::is_index_working',
+            'method'=> 'Tests\Unit\General\AppTest::is_store_working',
         ])) ;
+        //dd($response->content());
         $this->assertTrue($response->json()['success']);
 
         $response->assertJsonStructure([

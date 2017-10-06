@@ -54,14 +54,15 @@ class PhpunitG_method implements PhpunitG_methodInterface
      */
     protected function runCommand()
     {
-        if(file_exists(base_path('bootstrap/autoload.php')))
+        if(file_exists(base_path('bootstrap/autoload.php'))){
             $bootstrap_file='bootstrap/autoload.php';
-        else(file_exists(base_path('vendor/autoload.php')))
+        } elseif(file_exists(base_path('vendor/autoload.php'))){
             $bootstrap_file='vendor/autoload.php';
+        }
         $process= new Process(
             "vendor/bin/phpunit --bootstrap=$bootstrap_file --configuration=phpunit.xml ".
             " --filter='{$this->methodName}'"
-        , base_path(), getenv());
+            , base_path(), getenv());
         $process->run();
         $this->phpunitResponse= $process->getOutput();
         return $this;

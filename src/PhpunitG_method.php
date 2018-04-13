@@ -60,7 +60,7 @@ class PhpunitG_method implements PhpunitG_methodInterface
             $bootstrap_file='vendor/autoload.php';
         }
         $process= new Process(
-            "vendor/bin/phpunit --bootstrap=$bootstrap_file --configuration=phpunit.xml ".
+            "vendor/phpunit/phpunit/phpunit --bootstrap=$bootstrap_file --configuration=phpunit.xml ".
             " --filter='{$this->methodName}'"
             , base_path(), getenv());
         $process->run();
